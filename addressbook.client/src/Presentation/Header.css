@@ -1,0 +1,26 @@
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+}
+
+    .nav-item a:hover {
+        text-decoration: underline;
+    }
