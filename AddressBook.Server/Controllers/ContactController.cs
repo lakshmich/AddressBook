@@ -9,19 +9,20 @@ namespace AddressBook.Server.Controllers
     [Route("api/[controller]")]
     public class ContactController : ControllerBase
     {
-        private readonly ContactService _contactService;
+        private readonly IContactService _contactService;
         private readonly ILogger<ContactController> _logger;
 
-        public ContactController(ContactService contactService, ILogger<ContactController> logger)
+        public ContactController(IContactService contactService, ILogger<ContactController> logger)
         {
             _contactService = contactService;
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<Contact> GetContactsList()
+        public IActionResult GetContactsList()
         {
-            return _contactService.GetContactsById();
+            var contacts = _contactService.GetContacts();
+            return Ok(contacts);
         }
 
         [HttpPost]
@@ -35,7 +36,8 @@ namespace AddressBook.Server.Controllers
             try
             {
                 await _contactService.AddContactAsync(contact);
-                return Ok(contact);
+                var createdContact = await _contactService.GetContactByIdAsync(contact.id);
+                return Ok(createdContact);                
             }
             catch (ArgumentException ex)
             {
@@ -44,15 +46,15 @@ namespace AddressBook.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteContact(string id)
+        public async Task<IActionResult> DeleteContact(string id)
         {
-            var contact = _contactService.GetContactById(id);
+            var contact = await _contactService.GetContactByIdAsync(id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            _contactService.DeleteContact(id);
+            await _contactService.DeleteContactAsync(id);
             return NoContent();
         }
 

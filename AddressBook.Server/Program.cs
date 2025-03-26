@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Register dependencies
-builder.Services.AddSingleton<ContactService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 // Enable CORS
 builder.Services.AddCors(options =>

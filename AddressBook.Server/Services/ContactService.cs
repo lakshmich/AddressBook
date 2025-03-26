@@ -2,85 +2,75 @@ using AddressBook.Server.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AddressBook.Server.Services
 {
-
-    public class ContactService
+    public interface IContactService
     {
-        private readonly List<Contact> _contacts = new List<Contact>();
-        public ContactService() { }
+        IEnumerable<Contact> GetContacts();
+        Task<Contact> GetContactByIdAsync(string id);
+        Task AddContactAsync(Contact contact);
+        Task UpdateContactAsync(Contact contact);
+        Task DeleteContactAsync(string id);
+    }
 
-        // Get contact by id
-        // GET /api/contacts/{id}
-        public IEnumerable<Contact> GetContactsById()
+    public class ContactService : IContactService
+    {
+        private static List<Contact> _contacts = new List<Contact>();
+
+        public IEnumerable<Contact> GetContacts()
         {
-            // we can connect to DB to get all contacts for given Id
             return _contacts.AsEnumerable();
         }
 
-        public Contact GetContactById(string id)
+        public async Task<Contact> GetContactByIdAsync(string id)
         {
-            return _contacts.FirstOrDefault(c => c.id == id);
+            return await Task.FromResult(_contacts.FirstOrDefault(c => c.id == id));
         }
 
-        // ...existing code...
         public async Task AddContactAsync(Contact contact)
         {
-            // Validate contact
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(contact);
-            if (!Validator.TryValidateObject(contact, validationContext, validationResults, true))
-            {
-                var errorMessages = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
-                throw new ArgumentException("Invalid contact data: " + errorMessages);
-            }
+            ValidateContact(contact);
 
-            // Generate a unique ID
-            //contact.id = Guid.NewGuid().ToString();
-
-            // Simulate async database operation
-            await Task.Run(() => _contacts.Add(contact));
+            _contacts.Add(contact);
+            await Task.CompletedTask;
         }
 
-        // Update a contact
-        // PUT /api/contacts/{id}
         public async Task UpdateContactAsync(Contact contact)
         {
-            // Validate contact
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(contact);
-            if (!Validator.TryValidateObject(contact, validationContext, validationResults, true))
-            {
-                var errorMessages = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
-                throw new ArgumentException("Invalid contact data: " + errorMessages);
-            }
+            ValidateContact(contact);
 
-            var existingContact = GetContactById(contact.id);
+            var existingContact = await GetContactByIdAsync(contact.id);
             if (existingContact == null)
             {
                 throw new KeyNotFoundException("Contact not found");
             }
 
-            // Update contact details
             existingContact.FirstName = contact.FirstName;
             existingContact.LastName = contact.LastName;
             existingContact.Email = contact.Email;
             existingContact.Phone = contact.Phone;
             existingContact.Company = contact.Company;
-
-            // Simulate async database operation
-            await Task.Run(() => { /* Simulate update operation */ });
         }
 
-        // Delete a contact
-        // DELETE /api/contacts/{id}
-        public void DeleteContact(string id)
+        public async Task DeleteContactAsync(string id)
         {
-            var contact = GetContactById(id);
+            var contact = await GetContactByIdAsync(id);
             if (contact != null)
             {
-                _contacts.Remove(contact);
+                await Task.Run(() => _contacts.Remove(contact));
+            }
+        }
+
+        private void ValidateContact(Contact contact)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(contact);
+            if (!Validator.TryValidateObject(contact, validationContext, validationResults, true))
+            {
+                var errorMessages = string.Join(", ", validationResults.Select(vr => vr.ErrorMessage));
+                throw new ArgumentException("Invalid contact data: " + errorMessages);
             }
         }
     }

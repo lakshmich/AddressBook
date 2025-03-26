@@ -6,7 +6,7 @@ const ContactList = ({ contacts, onSelectContact, onEditContact, onDeleteContact
 
     const indexOfLastContact = currentPage * contactsPerPage;
     const indexOfFirstContact = indexOfLastContact - contactsPerPage;
-    const currentContacts = contacts.slice(indexOfFirstContact, indexOfLastContact);
+    const currentContacts = [...contacts].slice(indexOfFirstContact, indexOfLastContact);
 
     const totalPages = Math.ceil(contacts.length / contactsPerPage);
 

@@ -7,13 +7,13 @@ namespace AddressBook.Server.Model
     {
         public string id { get; set; }
 
-        [Required(ErrorMessage  = "Name is required")]
+        [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? Email { get; set; }
 
         [Phone(ErrorMessage = "Incorrect format")]
-        [Required]
+        [Required(ErrorMessage = "Phone number is required")]
         public string Phone { get; set; }
         public string? Company { get; set; }
     }
