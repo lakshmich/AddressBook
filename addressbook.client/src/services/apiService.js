@@ -1,6 +1,7 @@
-// src/services/apiService.js
+import { CONTACTS_ENDPOINT, CREATE_CONTACT_ENDPOINT } from './apiConstants';
+
 export const fetchContacts = async () => {
-    const response = await fetch('https://localhost:7177/api/contact');
+    const response = await fetch(CONTACTS_ENDPOINT);
     if (response.ok) {
         const data = await response.json();
         return data;
@@ -8,7 +9,7 @@ export const fetchContacts = async () => {
 };
 
 export const createContact = async (contact) => {    
-    const response = await fetch('https://localhost:7177/api/Contact', {
+    const response = await fetch(CONTACTS_ENDPOINT, {
         method: 'POST',
         headers: { 'Accept': '*/*', 'Content-Type': 'application/json' },
         body: JSON.stringify(contact)
@@ -23,7 +24,7 @@ export const createContact = async (contact) => {
 };
 
 export const updateContact = async (contact) => {
-    const response = await fetch(`https://localhost:7177/api/contact/${contact.id}`, {
+    const response = await fetch(`${CONTACTS_ENDPOINT}/${contact.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +35,7 @@ export const updateContact = async (contact) => {
 };
 
 export const deleteContact = async (contactId) => {
-    const response = await fetch(`https://localhost:7177/api/contact/${contactId}`, {
+    const response = await fetch(`${CONTACTS_ENDPOINT}/${contactId}`, {
         method: 'DELETE',
     });
     return response.ok;
