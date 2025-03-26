@@ -1,12 +1,34 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Functionality
 
-Currently, two official plugins are available:
+### Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is an address book application that allows users to manage their contacts. The main features include:
 
-## Expanding the ESLint configuration
+- Viewing a list of contacts
+- Viewing contact details
+- Adding new contacts
+- Editing existing contacts
+- Deleting contacts
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Key Components
+
+- **App.jsx**: The main component that sets up the layout and includes the header, main page, and contact details components.
+- **Header.jsx**: Displays the header of the application.
+- **MainPage.jsx**: Displays the main content of the application, including the list of contacts.
+- **ContactDetails.jsx**: Displays the details of a selected contact.
+- **ContactList.jsx**: Displays the list of contacts.
+
+### Services
+
+- **apiService.js**: Contains functions for making API calls to the backend server.
+- **useContacts.js**: A custom hook for managing the state of contacts.
+
+### Running the Project
+
+1. Start the client:
+    
+2. Start the server:
+    
+3. Open your browser and navigate to `https://localhost:57402` to see the application running.

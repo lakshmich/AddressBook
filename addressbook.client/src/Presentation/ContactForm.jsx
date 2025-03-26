@@ -1,5 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import UUID library
+import styled from 'styled-components';
+import Input from '../ui/input'; // Correct the import statement
+import DialogFooter from '../ui/Dialog';
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const FormField = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+`;
+
+const Label = styled.label`
+  flex: 1;
+  text-align: left;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+`;
 
 const ContactForm = ({ onSave, contact }) => {
     const [formData, setFormData] = useState({
@@ -61,82 +89,53 @@ const ContactForm = ({ onSave, contact }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="contact-form flex justify-center items-center h-full"> {/* Center the form */}
-            <div className="mb-4">
-                <label className="block font-semibold">First Name:</label>
-                <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mt-1"
-                />
-                {errors.firstName && <p className="error-message">{errors.firstName}</p>}
-            </div>
-
-            <div className="mb-4">
-                <label className="block font-semibold">Last Name:</label>
-                <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mt-1"
-                />
-                {errors.lastName && <p className="error-message">{errors.lastName}</p>}
-            </div>
-
-            <div className="mb-4">
-                <label className="block font-semibold">Phone Number:</label>
-                <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mt-1"
-                />
-                {errors.phone && <p className="error-message">{errors.phone}</p>}
-            </div>
-
-            <div className="mb-4">
-                <label className="block font-semibold">Email Address:</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mt-1"
-                />
-                {errors.email && <p className="error-message">{errors.email}</p>}
-            </div>
-
-            <div className="mb-4">
-                <label className="block font-semibold">Company:</label>
-                <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mt-1"
-                />
-            </div>
-
-            <div className="flex justify-between mt-6">
-                <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="w-1/2 bg-gray-500 text-white p-3 rounded mr-2"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    className="w-1/2 bg-blue-500 text-white p-3 rounded ml-2"
-                >
-                    Save
-                </button>
-            </div>
-        </form>
+        <FormContainer>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <div className="space-y-2">
+                            <Label>First Name</Label>
+                            <Input type="text" name="firstName" value={formData.firstName || ''} onChange={handleChange} />
+                            {errors.firstName && <ErrorMessage>{errors.firstName}</ErrorMessage>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Last Name</Label>
+                            <Input type="text" name="lastName" value={formData.lastName || ''} onChange={handleChange} />
+                            {errors.lastName && <ErrorMessage>{errors.lastName}</ErrorMessage>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Email</Label>
+                            <Input type="email" name="email" value={formData.email || ''} onChange={handleChange} />
+                            {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Phone</Label>
+                            <Input type="tel" name="phone" value={formData.phone || ''} onChange={handleChange} />
+                            {errors.phone && <ErrorMessage>{errors.phone}</ErrorMessage>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Company</Label>
+                            <Input type="text" name="company" value={formData.company || ''} onChange={handleChange} />
+                        </div>
+                    </div>
+                </div>
+                <DialogFooter className="flex justify-between mt-6">
+                    <button
+                        type="button"
+                        onClick={handleCancel}
+                        className="space-y-2"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="bg-primary hover:bg-primary/90"
+                    >
+                        Save
+                    </button>
+                </DialogFooter>
+            </form>
+        </FormContainer>
     );
 };
 
