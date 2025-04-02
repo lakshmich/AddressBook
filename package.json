@@ -8,5 +8,23 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.15",
     "@vitejs/plugin-react": "^4.3.4"
-  }
+  },
+  "name": "addressbook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakshmich/AddressBook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lakshmich/AddressBook/issues"
+  },
+  "homepage": "https://github.com/lakshmich/AddressBook#readme"
 }
